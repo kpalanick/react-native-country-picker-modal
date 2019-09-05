@@ -83,6 +83,7 @@ export default class CountryPicker extends Component {
     renderFilter: PropTypes.func,
     showCallingCode: PropTypes.bool,
     filterOptions: PropTypes.object,
+    closeButtonComponent: PropTypes.object,
     showCountryNameWithFlag: PropTypes.bool
   }
 
@@ -441,6 +442,7 @@ componentDidUpdate (prevProps) {
               {this.props.closeable && (
                 <CloseButton
                   image={this.props.closeButtonImage}
+                  closeButtonComponent={this.props.closeButtonComponent}
                   styles={[styles.closeButton, styles.closeButtonImage]}
                   onPress={() => this.onClose()}
                 />
