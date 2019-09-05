@@ -75,6 +75,9 @@ export default StyleSheet.create({
   countryNameStyle: {
 
   },
+  selectCountryPrompt: {
+
+  },
   countryCode: {
     textAlign: 'right'
   },
