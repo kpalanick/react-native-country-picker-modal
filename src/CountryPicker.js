@@ -58,7 +58,7 @@ export const getAllCountries = () =>
 
 export default class CountryPicker extends Component {
   static propTypes = {
-    cca2: PropTypes.string.isRequired,
+    cca2: PropTypes.string,
     translation: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     onClose: PropTypes.func,
@@ -67,6 +67,7 @@ export default class CountryPicker extends Component {
     children: PropTypes.node,
     countryList: PropTypes.array,
     excludeCountries: PropTypes.array,
+    countryPrompt: PropTypes.string,
     styles: PropTypes.object,
     filterPlaceholder: PropTypes.string,
     autoFocusFilter: PropTypes.bool,
@@ -93,6 +94,7 @@ export default class CountryPicker extends Component {
     filterPlaceholder: 'Filter',
     autoFocusFilter: true,
     transparent: false,
+    countryPrompt: 'Select a country',
     animationType: 'none'
   }
 
@@ -405,16 +407,26 @@ componentDidUpdate (prevProps) {
             <View
               style={[styles.touchFlag, { marginTop: isEmojiable ? 0 : 5 }]}
             >
-              {this.props.showCountryNameWithFlag && CountryPicker.renderFlagWithName(this.props.cca2,this.getCountryName(countries[this.props.cca2]),
-                styles.itemCountryFlag,
-                styles.emojiFlag,
-                styles.imgStyle,
-                styles.countryNameStyle)}
+              {
+                this.props.cca2 && this.props.showCountryNameWithFlag && CountryPicker.renderFlagWithName(this.props.cca2,
+                  this.getCountryName(countries[this.props.cca2]),
+                  styles.itemCountryFlag,
+                  styles.emojiFlag,
+                  styles.imgStyle,
+                  styles.countryNameStyle)
+              }
 
-              {!this.props.showCountryNameWithFlag && CountryPicker.renderFlag(this.props.cca2,
-                styles.itemCountryFlag,
-                styles.emojiFlag,
-                styles.imgStyle)}
+              {
+                this.props.cca2 && !this.props.showCountryNameWithFlag && CountryPicker.renderFlag(this.props.cca2,
+                  styles.itemCountryFlag,
+                  styles.emojiFlag,
+                  styles.imgStyle)
+              }
+
+              {
+                this.props.cca2 === undefined &&
+                <Text style={[{fontSize:16}, styles.selectCountryPrompt]}>{this.props.countryPrompt}</Text>
+              }
             </View>
           )}
         </TouchableOpacity>
