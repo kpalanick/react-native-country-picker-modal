@@ -20,7 +20,14 @@ const CloseButton = props => {
         onPress={props.onPress}
       >
         <View>
-          <Image source={closeImage} style={props.styles[1]} />
+          {
+            props.closeButtonComponent
+          }
+
+          {
+            props.closeButtonComponent === undefined &&
+            <Image source={closeImage} style={props.styles[1]} />
+          }
         </View>
       </TouchableNativeFeedback>
     </View>
