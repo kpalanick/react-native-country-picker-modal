@@ -87,7 +87,6 @@ export default class CountryPicker extends Component {
     closeButtonComponent: PropTypes.object,
     showPromptCountryName: PropTypes.bool,
     showPromptCountryFlag: PropTypes.bool,
-    checkmarkComponent: PropTypes.object,
   }
 
   static defaultProps = {
@@ -359,7 +358,6 @@ componentDidUpdate (prevProps) {
   renderCountryDetail(cca2) {
     const country = countries[cca2]
     const selected = this.props.cca2 === cca2
-    if (this.props.checkmarkComponent && selected) console.log(cca2)
     return (
       <View style={styles.itemCountry}>
         {!this.props.hideCountryFlag &&
