@@ -80,17 +80,21 @@ export default class CountryPicker extends Component {
     flagType: PropTypes.oneOf(Object.values(FLAG_TYPES)),
     hideAlphabetFilter: PropTypes.bool,
     hideCountryFlag: PropTypes.bool,
+    hideCountryFlagInPrompt: PropTypes.bool,
     renderFilter: PropTypes.func,
     showCallingCode: PropTypes.bool,
     filterOptions: PropTypes.object,
     closeButtonComponent: PropTypes.object,
-    showCountryNameWithFlag: PropTypes.bool
+    showPromptCountryName: PropTypes.bool,
+    showPromptCountryFlag: PropTypes.bool,
   }
 
   static defaultProps = {
     translation: 'eng',
     countryList: cca2List,
     hideCountryFlag: false,
+    showPromptCountryName: true,
+    showPromptCountryFlag: true,
     excludeCountries: [],
     filterPlaceholder: 'Filter',
     autoFocusFilter: true,
@@ -125,6 +129,12 @@ export default class CountryPicker extends Component {
           ? CountryPicker.renderEmojiFlag(cca2, emojiStyle)
           : CountryPicker.renderImageFlag(cca2, imageStyle)}
       </View>
+    )
+  }
+
+  static renderCountryName(countryName, countryNameStyle) {
+    return (
+      <Text style={[{fontSize:16}, countryNameStyle]}>{countryName}</Text>
     )
   }
 
@@ -406,22 +416,23 @@ componentDidUpdate (prevProps) {
             this.props.children
           ) : (
             <View
-              style={[styles.touchFlag, { marginTop: isEmojiable ? 0 : 5 }]}
+              style={[styles.touchFlag, { flexDirection: 'row', marginTop: isEmojiable ? 0 : 5 }]}
             >
               {
-                this.props.cca2 && this.props.showCountryNameWithFlag && CountryPicker.renderFlagWithName(this.props.cca2,
-                  this.getCountryName(countries[this.props.cca2]),
+                this.props.cca2 && this.props.showPromptCountryFlag &&
+                CountryPicker.renderFlag(
+                  this.props.cca2,
                   styles.itemCountryFlag,
                   styles.emojiFlag,
-                  styles.imgStyle,
-                  styles.countryNameStyle)
+                  styles.imgStyle
+                )
               }
 
               {
-                this.props.cca2 && !this.props.showCountryNameWithFlag && CountryPicker.renderFlag(this.props.cca2,
-                  styles.itemCountryFlag,
-                  styles.emojiFlag,
-                  styles.imgStyle)
+                this.props.cca2 && this.props.showPromptCountryName &&
+                <Text style={[{fontSize:16}, styles.countryNameStyle]}>
+                  {this.getCountryName(countries[this.props.cca2])}
+                </Text>
               }
 
               {
