@@ -81,6 +81,9 @@ export default StyleSheet.create({
   countryCode: {
     textAlign: 'right'
   },
+  selected: {
+
+  },
   scrollView: {
     flex: 1
   },

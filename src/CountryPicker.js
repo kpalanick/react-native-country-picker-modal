@@ -2,6 +2,7 @@
 /* eslint import/newline-after-import: 0 */
 
 import React, { Component } from 'react'
+import {ViewPropTypes} from "react-native"
 import PropTypes from 'prop-types'
 import SafeAreaView from 'react-native-safe-area-view'
 
@@ -356,6 +357,7 @@ componentDidUpdate (prevProps) {
 
   renderCountryDetail(cca2) {
     const country = countries[cca2]
+    const selected = this.props.cca2 === cca2
     return (
       <View style={styles.itemCountry}>
         {!this.props.hideCountryFlag &&
@@ -364,7 +366,7 @@ componentDidUpdate (prevProps) {
                 styles.emojiFlag,
                 styles.imgStyle)}
         <View style={styles.itemCountryName}>
-          <Text style={styles.countryName} allowFontScaling>
+          <Text style={[styles.countryName, selected ? styles.selected: {}]} allowFontScaling>
             {this.getCountryName(country)}
           </Text>
           {this.props.showCallingCode &&
@@ -418,7 +420,7 @@ componentDidUpdate (prevProps) {
               style={[styles.touchFlag, { flexDirection: 'row', marginTop: isEmojiable ? 0 : 5 }]}
             >
               {
-                this.props.cca2 && this.props.showPromptCountryFlag &&
+                this.countryCodeNotEmpty(this.props.cca2) &&
                 CountryPicker.renderFlag(
                   this.props.cca2,
                   styles.itemCountryFlag,
@@ -428,14 +430,14 @@ componentDidUpdate (prevProps) {
               }
 
               {
-                this.props.cca2 && this.props.showPromptCountryName &&
+                this.countryCodeNotEmpty(this.props.cca2) && this.props.showPromptCountryName &&
                 <Text style={[{fontSize:16}, styles.countryNameStyle]}>
                   {this.getCountryName(countries[this.props.cca2])}
                 </Text>
               }
 
               {
-                this.props.cca2 === undefined &&
+                !this.countryCodeNotEmpty(this.props.cca2) &&
                 <Text style={[{fontSize:16}, styles.selectCountryPrompt]}>{this.props.countryPrompt}</Text>
               }
             </View>
@@ -492,4 +494,7 @@ onScrollToIndexFailed={()=>{}}
       </View>
     )
   }
+
+  countryCodeNotEmpty = (cca2) =>
+    cca2 !== undefined && cca2 !== '';
 }
