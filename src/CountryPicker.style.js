@@ -73,7 +73,7 @@ export default StyleSheet.create({
     fontSize: getHeightPercent(2.2)
   },
   countryNameStyle: {
-
+    alignSelf: 'center',
   },
   selectCountryPrompt: {
 
