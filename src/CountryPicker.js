@@ -2,6 +2,7 @@
 /* eslint import/newline-after-import: 0 */
 
 import React, { Component } from 'react'
+import {ViewPropTypes} from "react-native"
 import PropTypes from 'prop-types'
 import SafeAreaView from 'react-native-safe-area-view'
 
@@ -25,7 +26,6 @@ import { getHeightPercent } from './ratio'
 import CloseButton from './CloseButton'
 import countryPickerStyles from './CountryPicker.style'
 import KeyboardAvoidingView from './KeyboardAvoidingView'
-import {ViewPropTypes} from "react-native-collapsible/config";
 
 let countries = null
 let Emoji = null
