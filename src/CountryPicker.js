@@ -25,6 +25,7 @@ import { getHeightPercent } from './ratio'
 import CloseButton from './CloseButton'
 import countryPickerStyles from './CountryPicker.style'
 import KeyboardAvoidingView from './KeyboardAvoidingView'
+import {ViewPropTypes} from "react-native-collapsible/config";
 
 let countries = null
 let Emoji = null
@@ -86,6 +87,7 @@ export default class CountryPicker extends Component {
     closeButtonComponent: PropTypes.object,
     showPromptCountryName: PropTypes.bool,
     showPromptCountryFlag: PropTypes.bool,
+    checkmarkComponent: PropTypes.object,
   }
 
   static defaultProps = {
@@ -356,6 +358,8 @@ componentDidUpdate (prevProps) {
 
   renderCountryDetail(cca2) {
     const country = countries[cca2]
+    const selected = this.props.cca2 === cca2
+    if (this.props.checkmarkComponent && selected) console.log(cca2)
     return (
       <View style={styles.itemCountry}>
         {!this.props.hideCountryFlag &&
@@ -364,7 +368,7 @@ componentDidUpdate (prevProps) {
                 styles.emojiFlag,
                 styles.imgStyle)}
         <View style={styles.itemCountryName}>
-          <Text style={styles.countryName} allowFontScaling>
+          <Text style={[styles.countryName, selected ? styles.selected: {}]} allowFontScaling>
             {this.getCountryName(country)}
           </Text>
           {this.props.showCallingCode &&
@@ -418,7 +422,7 @@ componentDidUpdate (prevProps) {
               style={[styles.touchFlag, { flexDirection: 'row', marginTop: isEmojiable ? 0 : 5 }]}
             >
               {
-                this.props.cca2 && this.props.showPromptCountryFlag &&
+                this.countryCodeNotEmpty(this.props.cca2) &&
                 CountryPicker.renderFlag(
                   this.props.cca2,
                   styles.itemCountryFlag,
@@ -428,14 +432,14 @@ componentDidUpdate (prevProps) {
               }
 
               {
-                this.props.cca2 && this.props.showPromptCountryName &&
+                this.countryCodeNotEmpty(this.props.cca2) && this.props.showPromptCountryName &&
                 <Text style={[{fontSize:16}, styles.countryNameStyle]}>
                   {this.getCountryName(countries[this.props.cca2])}
                 </Text>
               }
 
               {
-                this.props.cca2 === undefined &&
+                !this.countryCodeNotEmpty(this.props.cca2) &&
                 <Text style={[{fontSize:16}, styles.selectCountryPrompt]}>{this.props.countryPrompt}</Text>
               }
             </View>
@@ -492,4 +496,7 @@ onScrollToIndexFailed={()=>{}}
       </View>
     )
   }
+
+  countryCodeNotEmpty = (cca2) =>
+    cca2 !== undefined && cca2 !== '';
 }
